@@ -1,0 +1,47 @@
+{
+  "name": "strategy11/sherv-challenge",
+  "description": "Add new powerful widgets to the popular free page builder - Elementor.",
+  "type": "wordpress-plugin",
+  "license": "GNU General Public License 3.0",
+  "authors": [
+    {
+      "name": "Sherv Elmi",
+      "email": "sherv.elmi@gmail.com"
+    }
+  ],
+  "homepage": "https://github.com/shervElmi/sherv-challenge",
+  "keywords": [
+    "WordPress",
+    "Elementor",
+    "Page Builder"
+  ],
+  "support": {
+    "issues": "https://github.com/shervElmi/sherv-challenge/issues"
+  },
+  "require-dev": {
+    "automattic/vipwpcs": "^2.3",
+    "dealerdirect/phpcodesniffer-composer-installer": "^0.7.2",
+    "phpcompatibility/phpcompatibility-wp": "^2.1",
+    "roave/security-advisories": "dev-latest",
+    "sirbrillig/phpcs-variable-analysis": "^2.11",
+    "wp-coding-standards/wpcs": "^2.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "Strategy11\\Sherv_Challenge\\": "includes",
+      "Strategy11\\Sherv_Challenge\\Tools\\": "tools"
+    }
+  },
+  "scripts": {
+    "phpcs": "phpcs --severity=1",
+    "phpcbf": "phpcbf --severity=1"
+  },
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    },
+    "platform": {
+      "php": "7.2"
+    }
+  }
+}

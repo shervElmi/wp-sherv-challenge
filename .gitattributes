@@ -1,0 +1,8 @@
+.github export-ignore
+.* export-ignore
+*.config.js export-ignore
+*.config.test.js export-ignore
+*.preset.js export-ignore
+package.json export-ignore
+yarn.lock export-ignore
+*.xml.dist export-ignore

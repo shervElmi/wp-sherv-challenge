@@ -1,0 +1,36 @@
+{
+  "root": true,
+  "extends": ["plugin:@wordpress/eslint-plugin/recommended"],
+  "plugins": [
+      "jsdoc"
+  ],
+  "rules": {
+    "import/order": [
+      "error",
+      {
+        "groups": [
+          "builtin",
+          ["external", "unknown"],
+          "internal",
+          "parent",
+          "sibling",
+          "index"
+        ]
+      }
+    ],
+    "jsdoc/check-indentation": "error",
+    "@wordpress/dependency-group": "error",
+    "@wordpress/i18n-text-domain": [
+      "error",
+      {
+        "allowedTextDomain": "sherv-challenge"
+      }
+    ],
+    "@wordpress/valid-sprintf": "error"
+  },
+  "globals": {
+    "elementorModules": "readonly",
+    "elementorFrontend": "readonly",
+    "IntersectionObserver": "readonly"
+  }
+}
