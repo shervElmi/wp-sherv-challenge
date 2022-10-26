@@ -1,36 +1,43 @@
 {
-  "root": true,
-  "extends": ["plugin:@wordpress/eslint-plugin/recommended"],
-  "plugins": [
-      "jsdoc"
-  ],
-  "rules": {
-    "import/order": [
-      "error",
-      {
-        "groups": [
-          "builtin",
-          ["external", "unknown"],
-          "internal",
-          "parent",
-          "sibling",
-          "index"
-        ]
-      }
-    ],
-    "jsdoc/check-indentation": "error",
-    "@wordpress/dependency-group": "error",
-    "@wordpress/i18n-text-domain": [
-      "error",
-      {
-        "allowedTextDomain": "sherv-challenge"
-      }
-    ],
-    "@wordpress/valid-sprintf": "error"
-  },
-  "globals": {
-    "elementorModules": "readonly",
-    "elementorFrontend": "readonly",
-    "IntersectionObserver": "readonly"
-  }
+	"root": true,
+	"extends": [
+		"plugin:@wordpress/eslint-plugin/recommended",
+		"plugin:jsdoc/recommended",
+		"plugin:react-hooks/recommended"
+	],
+	"plugins": [ "@wordpress", "jsdoc", "react-hooks" ],
+	"rules": {
+		"import/order": [
+			"error",
+			{
+				"groups": [
+					"builtin",
+					[ "external", "unknown" ],
+					"internal",
+					"parent",
+					"sibling",
+					"index"
+				]
+			}
+		],
+		"jsdoc/check-indentation": "error",
+		"react/no-array-index-key": "warn",
+		"react/prop-types": "error",
+		"react-hooks/rules-of-hooks": "error",
+		"react-hooks/exhaustive-deps": [
+			"error",
+			{
+				"additionalHooks": "useSelect"
+			}
+		],
+		"@wordpress/dependency-group": "error",
+		"@wordpress/react-no-unsafe-timeout": "error",
+		"@wordpress/i18n-text-domain": [
+			"error",
+			{
+				"allowedTextDomain": "sherv-challenge"
+			}
+		],
+		"@wordpress/valid-sprintf": "error"
+	}
 }

@@ -15,7 +15,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     https://www.gnu.org/licenses/gpl-3.0.en.html
+ * https://www.gnu.org/licenses/gpl-3.0.en.html
  *
  * ADDITIONAL TERMS per GNU GPL Section 7 The origin of the Program
  * must not be misrepresented; you must not claim that you wrote
@@ -51,8 +51,6 @@ interface Registerable {
 	 * Register the component.
 	 *
 	 * @since 1.0.0
-	 *
-	 * @return void
 	 */
-	public function register();
+	public function register() : void;
 }

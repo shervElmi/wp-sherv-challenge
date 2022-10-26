@@ -1,6 +1,6 @@
 <?php
 /**
- * Hooked interface.
+ * Hookable interface.
  *
  * @package   Strategy11/Sherv_Challenge
  * @license   GNU General Public License 3.0
@@ -15,7 +15,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     https://www.gnu.org/licenses/gpl-3.0.en.html
+ * https://www.gnu.org/licenses/gpl-3.0.en.html
  *
  * ADDITIONAL TERMS per GNU GPL Section 7 The origin of the Program
  * must not be misrepresented; you must not claim that you wrote
@@ -34,7 +34,7 @@ namespace Strategy11\Sherv_Challenge\Interfaces\Component;
 /**
  * A component that is hooked to a specific point in the execution.
  *
- * A class marked as being Hooked can return the action at which it requires
+ * A class marked as being Hookable can return the action at which it requires
  * to be registered.
  *
  * This can be used to only register a given object after certain contextual
@@ -43,7 +43,7 @@ namespace Strategy11\Sherv_Challenge\Interfaces\Component;
  *
  * @since 1.0.0
  */
-interface Hooked extends Registerable {
+interface Hookable extends Registerable {
 
 	/**
 	 * Get the action to use for registering the component.

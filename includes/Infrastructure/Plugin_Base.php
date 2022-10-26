@@ -15,7 +15,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     https://www.gnu.org/licenses/gpl-3.0.en.html
+ * https://www.gnu.org/licenses/gpl-3.0.en.html
  *
  * ADDITIONAL TERMS per GNU GPL Section 7 The origin of the Program
  * must not be misrepresented; you must not claim that you wrote
@@ -36,7 +36,7 @@ use Strategy11\Sherv_Challenge\Interfaces\{
 	Component\Component,
 	Component\Component_Container as Component_Container_Interface,
 	Component\Conditional,
-	Component\Hooked,
+	Component\Hookable,
 	Component\Injector,
 	Component\Plugin_Activation_Aware,
 	Component\Plugin_Deactivation_Aware,
@@ -74,13 +74,14 @@ abstract class Plugin_Base implements Plugin {
 	public const COMPONENTS = [];
 
 	/**
-	 * List of shared instances.
+	 * Shared instances classes.
 	 *
 	 * The shared instances array contains FQCNs (fully qualified class names).
 	 *
 	 * @var array<string>
 	 */
 	public const SHARED_INSTANCE_CLASSES = [];
+
 
 	/**
 	 * WordPress action to trigger the component registration on.
@@ -173,7 +174,7 @@ abstract class Plugin_Base implements Plugin {
 	 *
 	 * @throws Invalid_Component If a component is not valid.
 	 */
-	public function register() {
+	public function register() : void {
 		add_action(
 			static::REGISTRATION_ACTION,
 			[ $this, 'register_components' ]
@@ -203,7 +204,7 @@ abstract class Plugin_Base implements Plugin {
 
 		foreach ( $components as $id => $class ) {
 			// Allow the components to hooked their registration.
-			if ( is_a( $class, Hooked::class, true ) ) {
+			if ( is_a( $class, Hookable::class, true ) ) {
 				$registration_action = $class::get_registration_action();
 
 				if ( did_action( $registration_action ) ) {
@@ -267,9 +268,11 @@ abstract class Plugin_Base implements Plugin {
 		 * The components will be properly instantiated once they are retrieved
 		 * from the component container.
 		 */
-		if ( ! is_a( $class, Registerable::class, true )
-			|| ! is_a( $class, Plugin_Activation_Aware::class, true )
-			|| ! is_a( $class, Plugin_Deactivation_Aware::class, true ) ) {
+		$is_registerable       = is_a( $class, Registerable::class, true );
+		$is_activation_aware   = is_a( $class, Plugin_Activation_Aware::class, true );
+		$is_deactivation_aware = is_a( $class, Plugin_Deactivation_Aware::class, true );
+
+		if ( ! $is_registerable && ! $is_activation_aware && ! $is_deactivation_aware ) {
 			return new Lazily_Instantiated_Component(
 				function () use ( $class ) {
 					return $this->injector->make( $class );

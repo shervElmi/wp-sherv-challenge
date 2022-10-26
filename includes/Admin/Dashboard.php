@@ -15,7 +15,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     https://www.gnu.org/licenses/gpl-3.0.en.html
+ * https://www.gnu.org/licenses/gpl-3.0.en.html
  *
  * ADDITIONAL TERMS per GNU GPL Section 7 The origin of the Program
  * must not be misrepresented; you must not claim that you wrote
@@ -96,7 +96,7 @@ class Dashboard implements Component, Registerable {
 	 *
 	 * @since 1.0.0
 	 */
-	public function register() {
+	public function register() : void {
 		add_action( 'admin_menu', [ $this, 'add_menu_page' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
 	}
@@ -169,14 +169,18 @@ class Dashboard implements Component, Registerable {
 	 *
 	 * @return array
 	 */
-	public function get_dashboard_settings(): array {
+	public function get_script_settings(): array {
 		$settings = [
 			'dashboardUrl' => admin_url( 'admin.php?page=' . self::PAGE_SLUG ),
 			'version'      => SHERV_CHALLENGE_VERSION,
 			'assetsUrl'    => $this->assets->get_base_url( 'assets' ),
 			'isRTL'        => is_rtl(),
 			'userId'       => get_current_user_id(),
-			'capabilities' => [],
+			'api'          => [
+				'root'           => esc_url_raw( rest_url() ),
+				'nonce'          => wp_create_nonce( 'wp_rest' ),
+				'strategy11Data' => 'sherv-challenge/v1/strategy11-data',
+			],
 		];
 
 		/**

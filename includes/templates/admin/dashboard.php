@@ -15,7 +15,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     https://www.gnu.org/licenses/gpl-3.0.en.html
+ * https://www.gnu.org/licenses/gpl-3.0.en.html
  *
  * ADDITIONAL TERMS per GNU GPL Section 7 The origin of the Program
  * must not be misrepresented; you must not claim that you wrote
@@ -35,16 +35,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 ?>
-
-<div class="elmi-panel">
-	<h1 class="screen-reader-text hide-if-no-js"><?php esc_html_e( 'Elmi Panel', 'sherv-challenge' ); ?></h1>
-	<div id="elmi-panel-dashboard" class="elmi-panel-dashboard-app-container hide-if-no-js"></div>
+<div class="sherv-challenge">
+	<h1 class="screen-reader-text hide-if-no-js"><?php esc_html_e( 'Sherv Challenge', 'sherv-challenge' ); ?></h1>
+	<div id="sherv-challenge-dashboard" class="sherv-challenge-dashboard hide-if-no-js"></div>
 
 	<?php // JavaScript is disabled. ?>
-	<div class="wrap elmi-panel-no-js hide-if-js">
-		<h1 class="wp-heading-inline"><?php esc_html_e( 'Elmi Panel', 'sherv-challenge' ); ?></h1>
+	<div class="wrap sherv-challenge-no-js hide-if-js">
+		<h1 class="wp-heading-inline"><?php esc_html_e( 'Sherv Challenge Plugin', 'sherv-challenge' ); ?></h1>
 		<div class="notice notice-error notice-alt">
-			<p><?php esc_html_e( 'Elmi Panel requires JavaScript. Please enable JavaScript in your browser settings.', 'sherv-challenge' ); ?></p>
+			<p><?php esc_html_e( 'Sherv Challenge requires JavaScript. Please enable JavaScript in your browser settings.', 'sherv-challenge' ); ?></p>
 		</div>
 	</div>
 </div>

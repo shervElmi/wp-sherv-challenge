@@ -4,5 +4,5 @@
 *.config.test.js export-ignore
 *.preset.js export-ignore
 package.json export-ignore
-yarn.lock export-ignore
+package-lock.json export-ignore
 *.xml.dist export-ignore
