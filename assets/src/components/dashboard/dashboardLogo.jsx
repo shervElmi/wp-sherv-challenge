@@ -20,6 +20,11 @@
  */
 
 /**
+ * External dependencies
+ */
+import PropTypes from 'prop-types';
+
+/**
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
@@ -27,23 +32,27 @@ import { __ } from '@wordpress/i18n';
 /**
  * Internal dependencies
  */
-import { Link } from '../../ui';
-import { Logo as LogoSVG } from '../../images';
+import Link from '../../ui/link';
+import { ReactComponent as LogoSVG } from '../../images/logo.svg';
 
-export const DashboardLogo = () => {
+export const DashboardLogo = ( { dashboardUrl = '#' } ) => {
 	return (
 		<div className="s11-dashboard__logo">
-			<Link href="#" extraClass="s11-dashbaord__logo-link">
+			<Link href={ dashboardUrl } className="s11-dashboard__logo-link">
 				<LogoSVG />
 			</Link>
 
 			{ /* We used the h1 tag in the "dashboard.php" template file. */ }
 			{ /* Actually we check the javascript activation of the browser in the template file. */ }
-			<span className="s11-dashbaord__logo-heading s11-h1">
-				{ __( 'Strategy11 Sherv Challenge', 'sherv-challenge' ) }
+			<span className="s11-dashboard__logo-heading s11-h1">
+				{ __( 'Sherv Challenge', 'sherv-challenge' ) }
 			</span>
 		</div>
 	);
+};
+
+DashboardLogo.propTypes = {
+	dashboardUrl: PropTypes.string,
 };
 
 export default DashboardLogo;

@@ -22,6 +22,7 @@
 /**
  * External dependencies
  */
+import PropTypes from 'prop-types';
 import { useDebouncedCallback } from 'use-debounce';
 
 /**
@@ -34,35 +35,43 @@ import { __ } from '@wordpress/i18n';
 /**
  * Internal dependencies
  */
-import { Table } from '../ui';
+import Button from '../ui/button';
+import Table from '../ui/table';
 import LoaderContainer from './loaderContainer';
 
-const {
-	api: { strategy11Data: strategy11DataAPI },
-} = window.shervChallengeDashboardSettings;
-
-export const ChallengeTable = () => {
-	const [ fetchedChallengeData, setFetchedChallengeData ] = useState( [] );
+export const ChallengeTable = ( {
+	endpoint = '',
+	refreshButtonVisible = false,
+	nonce = '',
+	ajaxURL = '',
+} ) => {
+	const [ fetchedChallengeData, setFetchedChallengeData ] = useState( {} );
 	const [ isFetchingChallengeData, setIsFetchingChallengeData ] =
-		useState( false );
+		useState( true );
 
 	const fetchChallengeData = useCallback( async () => {
+		if ( ! endpoint ) {
+			// eslint-disable-next-line no-alert
+			alert( 'Strategy11 remote endpoint does not available.' );
+			return;
+		}
+
 		try {
 			setIsFetchingChallengeData( true );
 
 			const challengeData = await apiFetch( {
-				path: strategy11DataAPI,
+				path: endpoint,
 			} );
 
-			if ( Array.isArray( challengeData ) ) {
+			if ( typeof challengeData === 'object' && challengeData !== null ) {
 				setFetchedChallengeData( challengeData );
 			}
 		} catch ( error ) {
-			setFetchedChallengeData( [] );
+			setFetchedChallengeData( {} );
 		} finally {
 			setIsFetchingChallengeData( false );
 		}
-	}, [] );
+	}, [ endpoint ] );
 
 	const debouncedFetchChallengeData = useDebouncedCallback(
 		fetchChallengeData,
@@ -73,16 +82,66 @@ export const ChallengeTable = () => {
 		debouncedFetchChallengeData();
 	}, [ debouncedFetchChallengeData ] );
 
-	if ( isFetchingChallengeData ) {
-		return (
-			<LoaderContainer>
-				{ __( 'Loading Posts…', 'sherv-challenge' ) }
-			</LoaderContainer>
-		);
-	}
+	const handleRemoveCache = useCallback( async () => {
+		setIsFetchingChallengeData( true );
 
-	const { header, body } = fetchedChallengeData;
-	return <Table header={ header } body={ body } />;
+		const data = new FormData();
+		data.append( 'action', 'sherv_challenge_remove_cache' );
+		data.append( 'nonce', nonce );
+
+		try {
+			const response = await fetch( ajaxURL, {
+				method: 'POST',
+				credentials: 'same-origin',
+				body: data,
+			} );
+
+			if ( response.ok ) {
+				const responseJson = await response.json();
+
+				if ( responseJson.success ) {
+					await fetchChallengeData();
+				}
+			} else {
+				// eslint-disable-next-line no-alert
+				alert( `HTTP-Error: ${ response.status }` );
+			}
+		} finally {
+			setIsFetchingChallengeData( false );
+		}
+	}, [ ajaxURL, fetchChallengeData, nonce ] );
+
+	return (
+		<div className="s11-challenge-table">
+			{ refreshButtonVisible && (
+				<Button
+					onClick={ handleRemoveCache }
+					disabled={ isFetchingChallengeData }
+					className="button-primary"
+				>
+					{ __( 'Refresh Data', 'sherv-challenge' ) }
+				</Button>
+			) }
+			{ isFetchingChallengeData ? (
+				<LoaderContainer>
+					{ __( 'Loading Data…', 'sherv-challenge' ) }
+				</LoaderContainer>
+			) : (
+				<Table
+					header={ fetchedChallengeData.header }
+					body={ fetchedChallengeData.body }
+					className="widefat"
+				/>
+			) }
+		</div>
+	);
+};
+
+ChallengeTable.propTypes = {
+	endpoint: PropTypes.string.isRequired,
+	refreshButtonVisible: PropTypes.bool,
+	nonce: PropTypes.string,
+	ajaxURL: PropTypes.string,
 };
 
 export default ChallengeTable;

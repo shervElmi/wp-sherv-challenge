@@ -26,16 +26,26 @@ import ChallengeTable from '../challengeTable';
 import DashboardLogo from './dashboardLogo';
 import DashboardTitle from './dashboardTitle';
 
+const {
+	dashboardUrl,
+	api: { ajaxURL, nonce, strategy11Data: endpoint },
+} = window.shervChallengeDashboardSettings;
+
 export const Dashboard = () => {
 	return (
 		<div className="s11-dashboard">
-			<div className="s11-dashbaord__header">
-				<DashboardLogo />
+			<div className="s11-dashboard__header">
+				<DashboardLogo dashboardUrl={ dashboardUrl } />
 			</div>
 
 			<div className="s11-dashboard__content">
 				<DashboardTitle />
-				<ChallengeTable />
+				<ChallengeTable
+					endpoint={ endpoint }
+					refreshButtonVisible={ true }
+					nonce={ nonce }
+					ajaxURL={ ajaxURL }
+				/>
 			</div>
 		</div>
 	);

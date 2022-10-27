@@ -1,6 +1,6 @@
 <?php
 /**
- * Google_Fonts class.
+ * Admin class.
  *
  * @package   Strategy11/Sherv_Challenge
  * @license   GNU General Public License 3.0
@@ -31,61 +31,63 @@
 
 namespace Strategy11\Sherv_Challenge\Admin;
 
-use WP_Styles;
-use Strategy11\Sherv_Challenge\Interfaces\Component\{Component, Conditional, Hookable, Registerable};
+use Strategy11\Sherv_Challenge\Traits\{Screen, Str};
+use Strategy11\Sherv_Challenge\Interfaces\Component\{Component, Hookable};
 
 /**
- * Google_Fonts Class.
+ * Admin class.
  *
  * @since 1.0.0
  */
-class Google_Fonts implements Component, Conditional, Registerable {
+class Admin implements Component, Hookable {
+	use Screen, Str;
 
 	/**
-	 * Script handle.
-	 *
-	 * @var string
-	 */
-	const SCRIPT_HANDLE = 'sherv-challenge-fonts';
-
-	/**
-	 * Check whether the conditional object is currently needed.
+	 * Get the action to use for registering the component.
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return bool Whether the conditional object is needed.
+	 * @return string Registration action to use.
 	 */
-	public static function is_needed(): bool {
-		return is_admin() && ! wp_doing_ajax();
+	public static function get_registration_action(): string {
+		return 'admin_init';
 	}
 
 	/**
-	 * Runs on instantiation.
+	 * Get the action priority to use for registering the component.
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return void
+	 * @return int Registration action priority to use.
+	 */
+	public static function get_registration_action_priority(): int {
+		return 10;
+	}
+
+	/**
+	 * Register the component.
+	 *
+	 * @since 1.0.0
 	 */
 	public function register() : void {
-		add_action( 'wp_default_styles', [ $this, 'register_style' ] );
+		add_filter( 'admin_body_class', [ $this, 'admin_body_class' ], 99 );
 	}
 
 	/**
-	 * Registers the google font style.
+	 * Add admin body class.
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param WP_Styles $wp_styles WP_Styles instance.
-	 *
-	 * @return void
+	 * @param string $classes Admin body classes.
+	 * @return string
 	 */
-	public function register_style( WP_Styles $wp_styles ) {
-		// so we need to avoid specifying a version at all.
-		$wp_styles->add(
-			self::SCRIPT_HANDLE,
-			'https://fonts.googleapis.com/css?family=Google+Sans|Google+Sans:b|Google+Sans:500&display=swap',
-			[],
-			SHERV_CHALLENGE_VERSION
-		);
+	public function admin_body_class( string $classes ) : string {
+		$screen = $this->get_current_screen();
+
+		if ( $screen && $this->str_contains( $screen->base, Dashboard::PAGE_SLUG ) ) {
+			$classes .= ' sherv-challenge-dashboard';
+		}
+
+		return $classes;
 	}
 }

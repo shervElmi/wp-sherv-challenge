@@ -15,7 +15,7 @@
  * Author: Sherv Elmi <sherv.elmi@gmail.com>
  * Author URI: https://elmi.dev/
  * Version: 1.0.0
- * Requires at least: 5.7
+ * Requires at least: 5.8
  * Requires PHP: 7.2
  * Tested up to: 6.0.3
  * Text Domain: sherv-challenge
@@ -65,7 +65,7 @@ define( 'SHERV_CHALLENGE_FILE', __FILE__ );
 define( 'SHERV_CHALLENGE_PATH', plugin_dir_path( SHERV_CHALLENGE_FILE ) );
 define( 'SHERV_CHALLENGE_URL', plugin_dir_url( SHERV_CHALLENGE_FILE ) );
 define( 'SHERV_CHALLENGE_MINIMUM_PHP_VERSION', '7.2' );
-define( 'SHERV_CHALLENGE_MINIMUM_WP_VERSION', '5.7' );
+define( 'SHERV_CHALLENGE_MINIMUM_WP_VERSION', '5.8' );
 
 if ( ! defined( 'SHERV_CHALLENGE_DEV_MODE' ) ) {
 	define( 'SHERV_CHALLENGE_DEV_MODE', false );
@@ -117,7 +117,7 @@ require_once SHERV_CHALLENGE_PATH . '/vendor/autoload.php';
  * @return void
  */
 function activate() {
-	// Run all Plugin_Activation services.
+	// Run all Plugin_Activation components.
 	Plugin_Factory::create()->on_plugin_activation();
 
 	/**
@@ -136,7 +136,7 @@ register_activation_hook( SHERV_CHALLENGE_FILE, __NAMESPACE__ . '\activate' );
  * @return void
  */
 function deactivate() {
-	// Run all Plugin_Deactivation services.
+	// Run all Plugin_Deactivation components.
 	Plugin_Factory::create()->on_plugin_deactivation();
 
 	/**

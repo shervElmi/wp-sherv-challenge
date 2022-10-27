@@ -33,8 +33,8 @@ const defaultConfig = require( '@wordpress/scripts/config/webpack.config' );
 module.exports = {
 	...defaultConfig,
 	entry: {
-		admin: './assets/src/admin.js',
-		frontend: './assets/src/frontend.js',
+		'sherv-challenge-admin': './assets/src/admin.js',
+		'sherv-challenge-frontend': './assets/src/frontend.js',
 	},
 	output: {
 		path: path.resolve( __dirname, 'assets/build' ),

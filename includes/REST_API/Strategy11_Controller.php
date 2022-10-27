@@ -35,7 +35,7 @@ use WP_REST_Server;
 use WP_REST_Response;
 use WP_Http;
 use WP_Error;
-
+use Strategy11\Sherv_Challenge\Remove_Transients;
 /**
  * Strategy11_Controller class.
  *
@@ -91,7 +91,7 @@ class Strategy11_Controller extends REST_Controller {
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
 	 */
-	public function get_items_permissions_check( $request ) {
+	public function get_items_permissions_check( $request ) { // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable
 		// Let anyone read the data.
 		return true;
 	}
@@ -129,14 +129,14 @@ class Strategy11_Controller extends REST_Controller {
 			$strategy11_data = json_decode( $data, true );
 
 			if ( $strategy11_data ) {
-				$response = $this->prepare_item_for_response( $strategy11_data, $request );
+				$response = $this->prepare_data_for_response( $strategy11_data, $request );
 				return rest_ensure_response( $response );
 			}
 		}
 
 		$args = [
-			'limit_response_size' => 153600, // 150 KB.
-			'timeout'             => 7,
+			'method'  => 'GET',
+			'timeout' => 7,
 		];
 
 		/**
@@ -151,20 +151,20 @@ class Strategy11_Controller extends REST_Controller {
 		 */
 		$args = apply_filters( 'sherv_challenge_strategy11_data_request_args', $args, $url );
 
-		$response = wp_safe_remote_get( $url, $args );
+		$response = wp_remote_request( $url, $args );
 
 		if ( WP_Http::OK !== wp_remote_retrieve_response_code( $response ) ) {
 			// Not saving the error response to cache since the error might be temporary.
 			return new WP_Error( 'rest_invalid_url', __( 'Invalid URL', 'sherv-challenge' ), [ 'status' => 404 ] );
 		}
 
-		$html = wp_remote_retrieve_body( $response );
+		$data = json_decode( wp_remote_retrieve_body( $response ), true );
 
-		if ( ! $html ) {
-			return new \WP_Error( 'rest_invalid_story', __( 'URL is not a story', 'sherv-challenge' ), [ 'status' => 404 ] );
+		if ( ! $data ) {
+			return new WP_Error( 'rest_invalid_story', __( 'Connect to Strategy11 remote endpoint failed.', 'sherv-challenge' ), [ 'status' => 404 ] );
 		}
 
-		$response = $this->prepare_item_for_response( $data, $request );
+		$response = $this->prepare_data_for_response( $data, $request );
 
 		set_transient( $cache_key, wp_json_encode( $data ), $cache_ttl );
 
@@ -190,17 +190,21 @@ class Strategy11_Controller extends REST_Controller {
 		}
 
 		if ( rest_is_field_included( 'headers', $fields ) ) {
-			$sanitized_data['headers'] = sanitize_text_field( $data['headers'] );
+			$sanitized_data['header'] = [];
+			foreach ( $data['data']['headers'] as $item ) {
+				$sanitized_data['header'][] = sanitize_text_field( $item );
+			}
 		}
 
 		if ( rest_is_field_included( 'rows', $fields ) ) {
-			foreach ( $data['rows'] as $row ) {
+			$sanitized_data['body'] = [];
+			foreach ( $data['data']['rows'] as $row ) {
 				$row['id']                = isset( $row['id'] ) ? absint( $row['id'] ) : '';
 				$row['fname']             = isset( $row['fname'] ) ? sanitize_text_field( $row['fname'] ) : '';
 				$row['lname']             = isset( $row['lname'] ) ? sanitize_text_field( $row['lname'] ) : '';
 				$row['email']             = isset( $row['email'] ) ? sanitize_email( $row['email'] ) : '';
 				$row['date']              = ( isset( $row['date'] ) && is_int( $row['date'] ) ) ? gmdate( 'd/m/Y', $row['date'] ) : '';
-				$sanitized_data['rows'][] = $row;
+				$sanitized_data['body'][] = $row;
 			}
 		}
 
@@ -209,7 +213,7 @@ class Strategy11_Controller extends REST_Controller {
 		 *
 		 * @var WP_REST_Response $response
 		 */
-		$response = rest_ensure_response( $data );
+		$response = rest_ensure_response( $sanitized_data );
 
 		return $response;
 	}
@@ -244,7 +248,7 @@ class Strategy11_Controller extends REST_Controller {
 					'type'     => 'array',
 					'readonly' => true,
 				],
-				'body'    => [
+				'rows'    => [
 					'type'     => 'array',
 					'readonly' => true,
 				],

@@ -39,5 +39,9 @@
 			}
 		],
 		"@wordpress/valid-sprintf": "error"
+	},
+	"globals": {
+		"FormData": "readonly",
+		"alert": "readonly"
 	}
 }

@@ -1,0 +1,31 @@
+@use "../abstracts";
+
+body.sherv-challenge-dashboard {
+	background-color: abstracts.$color__background-body;
+
+	#wpcontent {
+		padding-left: 0;
+		padding-right: 0;
+	}
+
+	h1,
+	.s11-h1 {
+		display: block;
+		font-size: abstracts.$font__size-h1;
+		font-weight: abstracts.$font__weight-h1;
+		color: abstracts.$color__text;
+		padding: 0;
+		margin-top: 0;
+	}
+
+	h2,
+	.s11-h2 {
+		display: block;
+		font-size: abstracts.$font__size-h2;
+		font-weight: abstracts.$font__weight-h2;
+		color: abstracts.$color__text-dark;
+		border-bottom: 1px solid abstracts.$color__border-main;
+		padding: 9px 0 5px;
+		margin: 0;
+	}
+}

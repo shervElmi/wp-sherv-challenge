@@ -1,0 +1,37 @@
+@use "../abstracts";
+
+.s11-dashboard {
+	$self: &;
+
+	&__header {
+
+		@include abstracts.flex-align-center;
+
+		max-height: 100px;
+		padding: 25px 40px 25px;
+	}
+
+	&__logo {
+
+		@include abstracts.flex-align-center;
+	}
+
+	&__logo-link {
+		display: flex;
+		margin-right: 18px;
+	}
+
+	&__content {
+		padding: 10px 40px 30px;
+	}
+
+	&__title-description {
+		color: abstracts.$color__text;
+		max-width: 850px;
+		margin: 5px 0 20px;
+	}
+
+	.s11-challenge-table {
+		margin-top: 40px;
+	}
+}

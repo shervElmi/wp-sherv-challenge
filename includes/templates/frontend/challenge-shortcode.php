@@ -1,3 +1,13 @@
+<?php
+/**
+ * Sherv Challenge shortocde.
+ *
+ * @package   Strategy11/Sherv_Challenge
+ * @license   GNU General Public License 3.0
+ * @link      https://strategy11.com/
+ * @copyright 2022 Strategy11
+ */
+
 /**
  * Copyright (C) 2022 Strategy11.
  *
@@ -19,6 +29,12 @@
  * limitations under the License.
  */
 
-export { default as Link } from './link';
-export { default as Button } from './button';
-export { default as Table } from './table';
+// Don't load directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	die( '-1' );
+}
+
+?>
+<div class="sherv-challenge">
+	<div id="sherv-challenge-shortcode" class="sherv-challenge-shortcode"></div>
+</div>

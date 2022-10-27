@@ -8,15 +8,17 @@
 	},
 	"scripts": {
 		"build": "wp-scripts build",
-		"dev": "wp-scripts start",
+		"start": "wp-scripts start",
 		"format": "npm-run-all --parallel format:*",
-		"format:css": "stylelint \"**/*.css\" --fix",
-		"format:js": "eslint --ext .js,.ts,.tsx --fix .",
-		"format:php": "composer phpcbf",
+		"format:css": "stylelint \"**/*.scss\" --fix",
+		"format:js": "wp-scripts format",
+		"format:php": "composer format",
 		"lint": "npm-run-all --parallel lint:*",
-		"lint:css": "stylelint \"**/*.css\"",
-		"lint:js": "eslint --ext .js,.ts,.tsx .",
-		"lint:php": "composer phpcs"
+		"lint:css": "wp-scripts lint-style",
+		"lint:js": "wp-scripts lint-js",
+		"lint:php": "composer lint",
+		"test": "npm-run-all --parallel test:*",
+		"test:php": "vendor/bin/phpunit"
 	},
 	"devDependencies": {
 		"@wordpress/eslint-plugin": "^13.3.0",

@@ -1,0 +1,25 @@
+@use "../abstracts";
+
+.s11-dashboard .s11-btn {
+
+	@include abstracts.flex-center;
+	font-size: abstracts.$font__size-button;
+	line-height: 1;
+	border-radius: 30px;
+	transition: all 0.2s ease;
+	padding: 6px 15px 7px;
+	margin-bottom: 20px;
+	box-shadow: none;
+	cursor: pointer;
+
+	&--primary {
+		color: abstracts.$color__white;
+		background-color: abstracts.$color__background-button;
+		border: 1px solid abstracts.$color__border-button;
+
+		&:hover {
+			background-color: abstracts.$color__background-button-hover;
+			border-color: abstracts.$color__border-button-hover;
+		}
+	}
+}

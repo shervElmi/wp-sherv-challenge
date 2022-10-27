@@ -1,3 +1,15 @@
-$color__border-card: #ccc;
-$color__shadow-card: rgba(#000, 0.05);
-$color__background-posts: #fafafc;
+$color__primary: #3f98fd;
+$color__primary-hover: #3177c7;
+
+$color__background-body: #fff;
+$color__background-button: $color__primary;
+$color__background-button-hover: $color__primary-hover;
+
+$color__text: rgba(40, 47, 54, 0.65);
+$color__text-dark: rgba(40, 47, 54, 0.85);
+$color__white: #fff;
+
+$color__border-main: rgba(40, 47, 54, 0.2);
+$color__border-table-header: #c3c4c7;
+$color__border-button: $color__primary;
+$color__border-button-hover: $color__primary-hover;

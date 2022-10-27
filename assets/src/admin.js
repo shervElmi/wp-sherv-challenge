@@ -27,7 +27,8 @@ import domReady from '@wordpress/dom-ready';
 /**
  * Internal dependencies
  */
-import { Dashboard } from './components';
+import './sass/admin.scss';
+import { Dashboard } from './components/dashboard/dashboard';
 
 domReady( () => {
 	const dashboard = document.getElementById( 'sherv-challenge-dashboard' );

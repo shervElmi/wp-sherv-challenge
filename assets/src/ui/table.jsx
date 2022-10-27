@@ -44,7 +44,7 @@ export const Table = ( { title, header, body, className = '' } ) => {
 				<tr className="s11-table__row">
 					{ header.map( ( headerItem ) => (
 						<th
-							className="s11-table__cell"
+							className="s11-table__cell s11-table__header-cell"
 							key={ slugify( headerItem ) }
 						>
 							{ headerItem }
@@ -60,7 +60,7 @@ export const Table = ( { title, header, body, className = '' } ) => {
 			<tbody className="s11-table__body">
 				{ body.map( ( row ) => (
 					<tr className="s11-table__row" key={ row.id }>
-						{ row.map( ( cell ) => (
+						{ Object.values( row ).map( ( cell ) => (
 							<td className="s11-table__cell" key={ row.id }>
 								{ cell }
 							</td>

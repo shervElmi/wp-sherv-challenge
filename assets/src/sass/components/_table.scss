@@ -1,0 +1,21 @@
+@use "../abstracts";
+
+.s11-table {
+	$self: &;
+
+	width: 100%;
+	border: 1px solid abstracts.$color__border-main !important;
+	border-radius: abstracts.$box__border-radius-small;
+	margin: 0 0 20px;
+	border-spacing: 0;
+
+	#{ $self }__cell {
+		font-size: abstracts.$font__size-table;
+		padding: 9px 20px;
+		text-align: left;
+	}
+
+	&__header-cell {
+		border-bottom: 1px solid abstracts.$color__border-main !important;
+	}
+}

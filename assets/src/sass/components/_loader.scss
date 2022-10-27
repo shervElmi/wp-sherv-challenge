@@ -1,7 +1,13 @@
 @use "../abstracts";
 
-.xwp-country-card__loader {
-	border-top: 1px solid abstracts.$color__border-card;
-	background-color: abstracts.$color__background-posts;
-	padding: 1.5rem;
+.s11-loader-container {
+
+	@include abstracts.flex-align-center;
+	color: abstracts.$color__text;
+	font-size: abstracts.$font__size-table;
+
+	svg.components-spinner {
+		margin: 0;
+		margin-right: 10px;
+	}
 }

@@ -44,7 +44,7 @@ class Remove_Transients implements Component, Plugin_Deactivation_Aware {
 	 *
 	 * @since 1.0.0
 	 */
-	public function run() : void {
+	public function remove() : void {
 		$this->on_plugin_deactivation();
 	}
 

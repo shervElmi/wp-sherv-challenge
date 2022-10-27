@@ -55,7 +55,7 @@ class Dashboard implements Component, Registerable {
 	 *
 	 * @var string
 	 */
-	const SCRIPT_HANDLE = 'sherv-challenge-wp-dashboard';
+	const SCRIPT_HANDLE = 'sherv-challenge-admin';
 
 	/**
 	 * Admin page hook suffixes.
@@ -63,13 +63,6 @@ class Dashboard implements Component, Registerable {
 	 * @var array<string,string|bool> List of the admin page's hook_suffix values.
 	 */
 	private $hook_suffix = [];
-
-	/**
-	 * Google_Fonts instance.
-	 *
-	 * @var Google_Fonts Google_Fonts instance.
-	 */
-	private $google_fonts;
 
 	/**
 	 * Assets instance.
@@ -83,12 +76,10 @@ class Dashboard implements Component, Registerable {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param Google_Fonts $google_fonts Google_Fonts instance.
-	 * @param Assets       $assets       Assets instance.
+	 * @param Assets $assets Assets instance.
 	 */
-	public function __construct( Google_Fonts $google_fonts, Assets $assets ) {
-		$this->google_fonts = $google_fonts;
-		$this->assets       = $assets;
+	public function __construct( Assets $assets ) {
+		$this->assets = $assets;
 	}
 
 	/**
@@ -160,6 +151,15 @@ class Dashboard implements Component, Registerable {
 		if ( $this->get_hook_suffix( self::PAGE_SLUG ) !== $hook_suffix ) {
 			return;
 		}
+
+		$this->assets->enqueue_script_asset( self::SCRIPT_HANDLE );
+		$this->assets->enqueue_style_asset( self::SCRIPT_HANDLE );
+
+		wp_localize_script(
+			self::SCRIPT_HANDLE,
+			'shervChallengeDashboardSettings',
+			$this->get_script_settings()
+		);
 	}
 
 	/**
@@ -177,8 +177,8 @@ class Dashboard implements Component, Registerable {
 			'isRTL'        => is_rtl(),
 			'userId'       => get_current_user_id(),
 			'api'          => [
-				'root'           => esc_url_raw( rest_url() ),
-				'nonce'          => wp_create_nonce( 'wp_rest' ),
+				'ajaxURL'        => admin_url( 'admin-ajax.php' ),
+				'nonce'          => wp_create_nonce( 'shev-challenge-dashboard-nonce' ),
 				'strategy11Data' => 'sherv-challenge/v1/strategy11-data',
 			],
 		];
@@ -190,6 +190,6 @@ class Dashboard implements Component, Registerable {
 		 *
 		 * @param array $settings Array of settings passed to sherv challenge dashboard.
 		 */
-		return apply_filters( 'sherv_challenge_dashboard_settings', $settings );
+		return apply_filters( 'sherv_challenge_dashboard_script_settings', $settings );
 	}
 }

@@ -56,8 +56,12 @@ final class Plugin extends Plugin_Base {
 	 * @var array<string> Associative array of identifiers mapped to fully qualified class names.
 	 */
 	public const COMPONENTS = [
-		'capabilities' => User\Capabilities::class,
-		'dashboard'    => Admin\Dashboard::class,
+		'capabilities'               => User\Capabilities::class,
+		'rest.strategy11_controller' => REST_API\Strategy11_Controller::class,
+		'admin'                      => Admin\Admin::class,
+		'dashboard'                  => Admin\Dashboard::class,
+		'admin_ajax'                 => Admin\Admin_Ajax::class,
+		'challenge_shortocde'        => Shortcode\Challenge_Shortcode::class,
 	];
 
 	/**

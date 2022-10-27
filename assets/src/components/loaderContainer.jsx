@@ -34,8 +34,8 @@ const LoaderContainer = ( { children, className = '' } ) => {
 
 	return (
 		<div className={ className }>
-			{ children }
 			<Spinner />
+			{ children }
 		</div>
 	);
 };
