@@ -48,7 +48,14 @@ class Strategy11_Controller extends REST_Controller {
 	 *
 	 * @var string
 	 */
-	private const API_ENDPOINT = 'http://api.strategy11.com/wp-json/challenge/v1/1';
+	public const API_ENDPOINT = 'http://api.strategy11.com/wp-json/challenge/v1/1';
+
+	/**
+	 * Cache expiration time.
+	 *
+	 * @var string
+	 */
+	public const CACHE_EXPIRATION_TIME = HOUR_IN_SECONDS;
 
 	/**
 	 * Strategy11_Controller constructor.
@@ -115,7 +122,7 @@ class Strategy11_Controller extends REST_Controller {
 		 * @param int $time Time to live (in seconds). Default is 1 hour.
 		 * @param string $url The attempted URL.
 		 */
-		$cache_ttl = apply_filters( 'sherv_challenge_strategy11_data_cache_ttl', HOUR_IN_SECONDS, $url );
+		$cache_ttl = apply_filters( 'sherv_challenge_strategy11_data_cache_ttl', static::CACHE_EXPIRATION_TIME, $url );
 		$cache_key = 'sherv_challenge_strategy11_data_' . md5( $url );
 
 		$data = get_transient( $cache_key );

@@ -1,6 +1,6 @@
 <?php
 /**
- * Admin_Ajax class.
+ * Clear_Cache_Command class.
  *
  * @package   Strategy11/Sherv_Challenge
  * @license   GNU General Public License 3.0
@@ -29,17 +29,18 @@
  * limitations under the License.
  */
 
-namespace Strategy11\Sherv_Challenge\Admin;
+namespace Strategy11\Sherv_Challenge\CLI;
 
+use WP_CLI;
 use Strategy11\Sherv_Challenge\Remove_Transients;
-use Strategy11\Sherv_Challenge\Interfaces\Component\{Component, Registerable};
+use Strategy11\Sherv_Challenge\Interfaces\Component\{Component, CLI_Command};
 
 /**
- * Admin_Ajax class.
+ * Clear_Cache_Command class.
  *
- * @since 1.0.0
+ * @since 2.1.0
  */
-class Admin_Ajax implements Component, Registerable {
+final class Clear_Cache_Command implements Component, CLI_Command {
 
 	/**
 	 * Remove_Transients instance.
@@ -49,7 +50,16 @@ class Admin_Ajax implements Component, Registerable {
 	private $remove_transients;
 
 	/**
-	 * Adamin_Ajax constructor.
+	 * Get the name under which to register the CLI command.
+	 *
+	 * @return string The name under which to register the CLI command.
+	 */
+	public static function get_command_name() {
+		return 'sherv-challenge';
+	}
+
+	/**
+	 * Clear_Cache_Command constructor.
 	 *
 	 * @since 1.0.0
 	 *
@@ -60,28 +70,14 @@ class Admin_Ajax implements Component, Registerable {
 	}
 
 	/**
-	 * Register the component.
+	 * Clear the cache.
 	 *
-	 * @since 1.0.0
+	 * @subcommand clear-cache
 	 */
-	public function register() : void {
-		add_action( 'wp_ajax_sherv_challenge_remove_cache', [ $this, 'remove_cache' ] );
-	}
-
-	/**
-	 * Remove the cache.
-	 *
-	 * @since 1.0.0
-	 */
-	public function remove_cache() : void {
-		check_ajax_referer( 'shev-challenge-dashboard-nonce', 'nonce' );
-
-		if ( ! current_user_can( 'manage_sherv_challenge' ) ) {
-			wp_send_json_error( __( 'You do not have permission to do this.', 'sherv-challenge' ) );
-		}
+	public function clear_cache() {
+		WP_CLI::confirm( __( 'This operation will clear the data chached data, are you sure?', 'sherv-challenge' ) );
 
 		$this->remove_transients->remove();
-
-		wp_send_json_success( __( 'Cache removed.', 'sherv-challenge' ) );
+		WP_CLI::success( 'Cache cleared.' );
 	}
 }

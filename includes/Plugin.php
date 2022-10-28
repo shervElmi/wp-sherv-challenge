@@ -62,6 +62,8 @@ final class Plugin extends Plugin_Base {
 		'dashboard'                  => Admin\Dashboard::class,
 		'admin_ajax'                 => Admin\Admin_Ajax::class,
 		'challenge_shortocde'        => Shortcode\Challenge_Shortcode::class,
+		'remove_transients'          => Remove_Transients::class,
+		'cli.Clear_Cache_Command'    => CLI\Clear_Cache_Command::class,
 	];
 
 	/**

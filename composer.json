@@ -24,13 +24,11 @@
     "roave/security-advisories": "dev-latest",
     "sirbrillig/phpcs-variable-analysis": "^2.11",
     "wp-coding-standards/wpcs": "^2.3",
-    "dg/bypass-finals": "^1.4",
     "yoast/wp-test-utils": "^1.0"
   },
   "autoload": {
     "psr-4": {
-      "Strategy11\\Sherv_Challenge\\": "includes",
-      "Strategy11\\Sherv_Challenge\\Tools\\": "tools"
+      "Strategy11\\Sherv_Challenge\\": "includes"
     }
   },
   "scripts": {

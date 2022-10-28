@@ -31,11 +31,13 @@
 
 namespace Strategy11\Sherv_Challenge\Infrastructure;
 
+use WP_CLI;
 use Strategy11\Sherv_Challenge\Interfaces\{
 	Plugin,
 	Component\Component,
 	Component\Component_Container as Component_Container_Interface,
 	Component\Conditional,
+	Component\CLI_Command,
 	Component\Hookable,
 	Component\Injector,
 	Component\Plugin_Activation_Aware,
@@ -246,6 +248,10 @@ abstract class Plugin_Base implements Plugin {
 
 		$this->component_container->put( $id, $component );
 
+		if ( $component instanceof CLI_Command && defined( 'WP_CLI' ) && WP_CLI ) {
+			WP_CLI::add_command( $component::get_command_name(), $component );
+		}
+
 		if ( $component instanceof Registerable ) {
 			$component->register();
 		}
@@ -271,8 +277,9 @@ abstract class Plugin_Base implements Plugin {
 		$is_registerable       = is_a( $class, Registerable::class, true );
 		$is_activation_aware   = is_a( $class, Plugin_Activation_Aware::class, true );
 		$is_deactivation_aware = is_a( $class, Plugin_Deactivation_Aware::class, true );
+		$is_cli_command        = defined( 'WP_CLI' ) && WP_CLI && is_a( $class, CLI_Command::class, true );
 
-		if ( ! $is_registerable && ! $is_activation_aware && ! $is_deactivation_aware ) {
+		if ( ! $is_registerable && ! $is_activation_aware && ! $is_deactivation_aware && ! $is_cli_command ) {
 			return new Lazily_Instantiated_Component(
 				function () use ( $class ) {
 					return $this->injector->make( $class );
