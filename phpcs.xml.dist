@@ -4,8 +4,8 @@
 
 	<rule ref="WordPress-Core">
 		<type>error</type>
-		<exclude name="Generic.Arrays.DisallowShortArraySyntax" />
-		<exclude name="WordPress.PHP.DisallowShortTernary" />
+		<exclude name="Universal.Arrays.DisallowShortArraySyntax" />
+		<exclude name="Universal.Operators.DisallowShortTernary" />
 		<exclude
       name="WordPress.NamingConventions.ValidPostTypeSlug.NotStringLiteral"
     />

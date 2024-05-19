@@ -144,7 +144,7 @@ abstract class Plugin_Base implements Plugin {
 	 *
 	 * @since 1.0.0
 	 */
-	public function on_plugin_activation() : void {
+	public function on_plugin_activation(): void {
 		$this->register_components();
 
 		foreach ( $this->component_container as $component ) {
@@ -159,7 +159,7 @@ abstract class Plugin_Base implements Plugin {
 	 *
 	 * @since 1.0.0
 	 */
-	public function on_plugin_deactivation() : void {
+	public function on_plugin_deactivation(): void {
 		$this->register_components();
 
 		foreach ( $this->component_container as $component ) {
@@ -176,7 +176,7 @@ abstract class Plugin_Base implements Plugin {
 	 *
 	 * @throws Invalid_Component If a component is not valid.
 	 */
-	public function register() : void {
+	public function register(): void {
 		add_action(
 			static::REGISTRATION_ACTION,
 			[ $this, 'register_components' ]

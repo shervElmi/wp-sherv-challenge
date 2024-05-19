@@ -24,7 +24,8 @@
     "roave/security-advisories": "dev-latest",
     "sirbrillig/phpcs-variable-analysis": "^2.11",
     "wp-coding-standards/wpcs": "^2.3",
-    "yoast/wp-test-utils": "^1.0"
+    "yoast/wp-test-utils": "^1.0",
+    "phpcompatibility/php-compatibility": "^9.3"
   },
   "autoload": {
     "psr-4": {
